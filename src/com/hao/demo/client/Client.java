@@ -43,7 +43,7 @@ public class Client {
             // 3
             try {
                 String sourceFilePath = "E:\\logs\\xiaohuoban.log.1";
-                String targetFilePath = "E:\\logs\\xiaohuoban_t1.log";
+                String targetFilePath = "xiaohuoban_t1.log";
 
                 FileChannel fChannel = new FileInputStream(sourceFilePath).getChannel();
                 ByteBuffer buffer = ByteBuffer.allocate(1024 * 1024 * 10);
