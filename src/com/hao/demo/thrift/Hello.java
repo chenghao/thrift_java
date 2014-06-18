@@ -34,17 +34,21 @@ public class Hello {
 
   public interface Iface {
 
-    public String echoDemo(Demo demo) throws org.apache.thrift.TException;
+    public String echoDemo(Demo demo) throws TException;
 
-    public String echoHello(String str) throws org.apache.thrift.TException;
+    public String echoHello(String str) throws TException;
+
+    public void uploadFile(ByteBuffer binaryData, String filePath, short flag) throws TException;
 
   }
 
   public interface AsyncIface {
 
-    public void echoDemo(Demo demo, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.echoDemo_call> resultHandler) throws org.apache.thrift.TException;
+    public void echoDemo(Demo demo, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.echoDemo_call> resultHandler) throws TException;
 
-    public void echoHello(String str, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.echoHello_call> resultHandler) throws org.apache.thrift.TException;
+    public void echoHello(String str, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.echoHello_call> resultHandler) throws TException;
+
+    public void uploadFile(ByteBuffer binaryData, String filePath, short flag, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.uploadFile_call> resultHandler) throws TException;
 
   }
 
@@ -68,20 +72,20 @@ public class Hello {
       super(iprot, oprot);
     }
 
-    public String echoDemo(Demo demo) throws org.apache.thrift.TException
+    public String echoDemo(Demo demo) throws TException
     {
       send_echoDemo(demo);
       return recv_echoDemo();
     }
 
-    public void send_echoDemo(Demo demo) throws org.apache.thrift.TException
+    public void send_echoDemo(Demo demo) throws TException
     {
       echoDemo_args args = new echoDemo_args();
       args.setDemo(demo);
       sendBase("echoDemo", args);
     }
 
-    public String recv_echoDemo() throws org.apache.thrift.TException
+    public String recv_echoDemo() throws TException
     {
       echoDemo_result result = new echoDemo_result();
       receiveBase(result, "echoDemo");
@@ -91,20 +95,20 @@ public class Hello {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "echoDemo failed: unknown result");
     }
 
-    public String echoHello(String str) throws org.apache.thrift.TException
+    public String echoHello(String str) throws TException
     {
       send_echoHello(str);
       return recv_echoHello();
     }
 
-    public void send_echoHello(String str) throws org.apache.thrift.TException
+    public void send_echoHello(String str) throws TException
     {
       echoHello_args args = new echoHello_args();
       args.setStr(str);
       sendBase("echoHello", args);
     }
 
-    public String recv_echoHello() throws org.apache.thrift.TException
+    public String recv_echoHello() throws TException
     {
       echoHello_result result = new echoHello_result();
       receiveBase(result, "echoHello");
@@ -112,6 +116,28 @@ public class Hello {
         return result.success;
       }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "echoHello failed: unknown result");
+    }
+
+    public void uploadFile(ByteBuffer binaryData, String filePath, short flag) throws TException
+    {
+      send_uploadFile(binaryData, filePath, flag);
+      recv_uploadFile();
+    }
+
+    public void send_uploadFile(ByteBuffer binaryData, String filePath, short flag) throws TException
+    {
+      uploadFile_args args = new uploadFile_args();
+      args.setBinaryData(binaryData);
+      args.setFilePath(filePath);
+      args.setFlag(flag);
+      sendBase("uploadFile", args);
+    }
+
+    public void recv_uploadFile() throws TException
+    {
+      uploadFile_result result = new uploadFile_result();
+      receiveBase(result, "uploadFile");
+      return;
     }
 
   }
@@ -132,7 +158,7 @@ public class Hello {
       super(protocolFactory, clientManager, transport);
     }
 
-    public void echoDemo(Demo demo, org.apache.thrift.async.AsyncMethodCallback<echoDemo_call> resultHandler) throws org.apache.thrift.TException {
+    public void echoDemo(Demo demo, org.apache.thrift.async.AsyncMethodCallback<echoDemo_call> resultHandler) throws TException {
       checkReady();
       echoDemo_call method_call = new echoDemo_call(demo, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -141,12 +167,12 @@ public class Hello {
 
     public static class echoDemo_call extends org.apache.thrift.async.TAsyncMethodCall {
       private Demo demo;
-      public echoDemo_call(Demo demo, org.apache.thrift.async.AsyncMethodCallback<echoDemo_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public echoDemo_call(Demo demo, org.apache.thrift.async.AsyncMethodCallback<echoDemo_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.demo = demo;
       }
 
-      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("echoDemo", org.apache.thrift.protocol.TMessageType.CALL, 0));
         echoDemo_args args = new echoDemo_args();
         args.setDemo(demo);
@@ -154,8 +180,8 @@ public class Hello {
         prot.writeMessageEnd();
       }
 
-      public String getResult() throws org.apache.thrift.TException {
-        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+      public String getResult() throws TException {
+        if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
@@ -164,7 +190,7 @@ public class Hello {
       }
     }
 
-    public void echoHello(String str, org.apache.thrift.async.AsyncMethodCallback<echoHello_call> resultHandler) throws org.apache.thrift.TException {
+    public void echoHello(String str, org.apache.thrift.async.AsyncMethodCallback<echoHello_call> resultHandler) throws TException {
       checkReady();
       echoHello_call method_call = new echoHello_call(str, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -173,12 +199,12 @@ public class Hello {
 
     public static class echoHello_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String str;
-      public echoHello_call(String str, org.apache.thrift.async.AsyncMethodCallback<echoHello_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public echoHello_call(String str, org.apache.thrift.async.AsyncMethodCallback<echoHello_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.str = str;
       }
 
-      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("echoHello", org.apache.thrift.protocol.TMessageType.CALL, 0));
         echoHello_args args = new echoHello_args();
         args.setStr(str);
@@ -186,13 +212,51 @@ public class Hello {
         prot.writeMessageEnd();
       }
 
-      public String getResult() throws org.apache.thrift.TException {
-        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+      public String getResult() throws TException {
+        if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_echoHello();
+      }
+    }
+
+    public void uploadFile(ByteBuffer binaryData, String filePath, short flag, org.apache.thrift.async.AsyncMethodCallback<uploadFile_call> resultHandler) throws TException {
+      checkReady();
+      uploadFile_call method_call = new uploadFile_call(binaryData, filePath, flag, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class uploadFile_call extends org.apache.thrift.async.TAsyncMethodCall {
+      private ByteBuffer binaryData;
+      private String filePath;
+      private short flag;
+      public uploadFile_call(ByteBuffer binaryData, String filePath, short flag, org.apache.thrift.async.AsyncMethodCallback<uploadFile_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.binaryData = binaryData;
+        this.filePath = filePath;
+        this.flag = flag;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("uploadFile", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        uploadFile_args args = new uploadFile_args();
+        args.setBinaryData(binaryData);
+        args.setFilePath(filePath);
+        args.setFlag(flag);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public void getResult() throws TException {
+        if (getState() != State.RESPONSE_READ) {
+          throw new IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        (new Client(prot)).recv_uploadFile();
       }
     }
 
@@ -211,6 +275,7 @@ public class Hello {
     private static <I extends Iface> Map<String,  org.apache.thrift.ProcessFunction<I, ? extends  org.apache.thrift.TBase>> getProcessMap(Map<String,  org.apache.thrift.ProcessFunction<I, ? extends  org.apache.thrift.TBase>> processMap) {
       processMap.put("echoDemo", new echoDemo());
       processMap.put("echoHello", new echoHello());
+      processMap.put("uploadFile", new uploadFile());
       return processMap;
     }
 
@@ -227,7 +292,7 @@ public class Hello {
         return false;
       }
 
-      public echoDemo_result getResult(I iface, echoDemo_args args) throws org.apache.thrift.TException {
+      public echoDemo_result getResult(I iface, echoDemo_args args) throws TException {
         echoDemo_result result = new echoDemo_result();
         result.success = iface.echoDemo(args.demo);
         return result;
@@ -247,9 +312,29 @@ public class Hello {
         return false;
       }
 
-      public echoHello_result getResult(I iface, echoHello_args args) throws org.apache.thrift.TException {
+      public echoHello_result getResult(I iface, echoHello_args args) throws TException {
         echoHello_result result = new echoHello_result();
         result.success = iface.echoHello(args.str);
+        return result;
+      }
+    }
+
+    public static class uploadFile<I extends Iface> extends org.apache.thrift.ProcessFunction<I, uploadFile_args> {
+      public uploadFile() {
+        super("uploadFile");
+      }
+
+      public uploadFile_args getEmptyArgsInstance() {
+        return new uploadFile_args();
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public uploadFile_result getResult(I iface, uploadFile_args args) throws TException {
+        uploadFile_result result = new uploadFile_result();
+        iface.uploadFile(args.binaryData, args.filePath, args.flag);
         return result;
       }
     }
@@ -479,11 +564,11 @@ public class Hello {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
       schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
     }
 
@@ -503,7 +588,7 @@ public class Hello {
       return sb.toString();
     }
 
-    public void validate() throws org.apache.thrift.TException {
+    public void validate() throws TException {
       // check for required fields
       // check for sub-struct validity
       if (demo != null) {
@@ -514,7 +599,7 @@ public class Hello {
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (org.apache.thrift.TException te) {
+      } catch (TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -522,7 +607,7 @@ public class Hello {
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (org.apache.thrift.TException te) {
+      } catch (TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -535,7 +620,7 @@ public class Hello {
 
     private static class echoDemo_argsStandardScheme extends StandardScheme<echoDemo_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, echoDemo_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, echoDemo_args struct) throws TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -565,7 +650,7 @@ public class Hello {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, echoDemo_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, echoDemo_args struct) throws TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -589,7 +674,7 @@ public class Hello {
     private static class echoDemo_argsTupleScheme extends TupleScheme<echoDemo_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, echoDemo_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, echoDemo_args struct) throws TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetDemo()) {
@@ -602,7 +687,7 @@ public class Hello {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, echoDemo_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, echoDemo_args struct) throws TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -838,11 +923,11 @@ public class Hello {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
       schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
       }
 
@@ -862,7 +947,7 @@ public class Hello {
       return sb.toString();
     }
 
-    public void validate() throws org.apache.thrift.TException {
+    public void validate() throws TException {
       // check for required fields
       // check for sub-struct validity
     }
@@ -870,7 +955,7 @@ public class Hello {
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (org.apache.thrift.TException te) {
+      } catch (TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -878,7 +963,7 @@ public class Hello {
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (org.apache.thrift.TException te) {
+      } catch (TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -891,7 +976,7 @@ public class Hello {
 
     private static class echoDemo_resultStandardScheme extends StandardScheme<echoDemo_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, echoDemo_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, echoDemo_result struct) throws TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -920,7 +1005,7 @@ public class Hello {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, echoDemo_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, echoDemo_result struct) throws TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -944,7 +1029,7 @@ public class Hello {
     private static class echoDemo_resultTupleScheme extends TupleScheme<echoDemo_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, echoDemo_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, echoDemo_result struct) throws TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetSuccess()) {
@@ -957,7 +1042,7 @@ public class Hello {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, echoDemo_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, echoDemo_result struct) throws TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -1192,11 +1277,11 @@ public class Hello {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
       schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
     }
 
@@ -1216,7 +1301,7 @@ public class Hello {
       return sb.toString();
     }
 
-    public void validate() throws org.apache.thrift.TException {
+    public void validate() throws TException {
       // check for required fields
       // check for sub-struct validity
     }
@@ -1224,7 +1309,7 @@ public class Hello {
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (org.apache.thrift.TException te) {
+      } catch (TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -1232,7 +1317,7 @@ public class Hello {
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (org.apache.thrift.TException te) {
+      } catch (TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -1245,7 +1330,7 @@ public class Hello {
 
     private static class echoHello_argsStandardScheme extends StandardScheme<echoHello_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, echoHello_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, echoHello_args struct) throws TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -1274,7 +1359,7 @@ public class Hello {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, echoHello_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, echoHello_args struct) throws TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -1298,7 +1383,7 @@ public class Hello {
     private static class echoHello_argsTupleScheme extends TupleScheme<echoHello_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, echoHello_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, echoHello_args struct) throws TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetStr()) {
@@ -1311,7 +1396,7 @@ public class Hello {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, echoHello_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, echoHello_args struct) throws TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -1546,11 +1631,11 @@ public class Hello {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
       schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
       }
 
@@ -1570,7 +1655,7 @@ public class Hello {
       return sb.toString();
     }
 
-    public void validate() throws org.apache.thrift.TException {
+    public void validate() throws TException {
       // check for required fields
       // check for sub-struct validity
     }
@@ -1578,7 +1663,7 @@ public class Hello {
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (org.apache.thrift.TException te) {
+      } catch (TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -1586,7 +1671,7 @@ public class Hello {
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (org.apache.thrift.TException te) {
+      } catch (TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -1599,7 +1684,7 @@ public class Hello {
 
     private static class echoHello_resultStandardScheme extends StandardScheme<echoHello_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, echoHello_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, echoHello_result struct) throws TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -1628,7 +1713,7 @@ public class Hello {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, echoHello_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, echoHello_result struct) throws TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -1652,7 +1737,7 @@ public class Hello {
     private static class echoHello_resultTupleScheme extends TupleScheme<echoHello_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, echoHello_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, echoHello_result struct) throws TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetSuccess()) {
@@ -1665,13 +1750,822 @@ public class Hello {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, echoHello_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, echoHello_result struct) throws TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           struct.success = iprot.readString();
           struct.setSuccessIsSet(true);
         }
+      }
+    }
+
+  }
+
+  public static class uploadFile_args implements org.apache.thrift.TBase<uploadFile_args, uploadFile_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("uploadFile_args");
+
+    private static final org.apache.thrift.protocol.TField BINARY_DATA_FIELD_DESC = new org.apache.thrift.protocol.TField("binaryData", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField FILE_PATH_FIELD_DESC = new org.apache.thrift.protocol.TField("filePath", org.apache.thrift.protocol.TType.STRING, (short)2);
+    private static final org.apache.thrift.protocol.TField FLAG_FIELD_DESC = new org.apache.thrift.protocol.TField("flag", org.apache.thrift.protocol.TType.I16, (short)3);
+
+    private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
+    static {
+      schemes.put(StandardScheme.class, new uploadFile_argsStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new uploadFile_argsTupleSchemeFactory());
+    }
+
+    public ByteBuffer binaryData; // required
+    public String filePath; // required
+    public short flag; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      BINARY_DATA((short)1, "binaryData"),
+      FILE_PATH((short)2, "filePath"),
+      FLAG((short)3, "flag");
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BINARY_DATA
+            return BINARY_DATA;
+          case 2: // FILE_PATH
+            return FILE_PATH;
+          case 3: // FLAG
+            return FLAG;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __FLAG_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BINARY_DATA, new org.apache.thrift.meta_data.FieldMetaData("binaryData", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , true)));
+      tmpMap.put(_Fields.FILE_PATH, new org.apache.thrift.meta_data.FieldMetaData("filePath", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.FLAG, new org.apache.thrift.meta_data.FieldMetaData("flag", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I16)));
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(uploadFile_args.class, metaDataMap);
+    }
+
+    public uploadFile_args() {
+    }
+
+    public uploadFile_args(
+      ByteBuffer binaryData,
+      String filePath,
+      short flag)
+    {
+      this();
+      this.binaryData = binaryData;
+      this.filePath = filePath;
+      this.flag = flag;
+      setFlagIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public uploadFile_args(uploadFile_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      if (other.isSetBinaryData()) {
+        this.binaryData = org.apache.thrift.TBaseHelper.copyBinary(other.binaryData);
+;
+      }
+      if (other.isSetFilePath()) {
+        this.filePath = other.filePath;
+      }
+      this.flag = other.flag;
+    }
+
+    public uploadFile_args deepCopy() {
+      return new uploadFile_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.binaryData = null;
+      this.filePath = null;
+      setFlagIsSet(false);
+      this.flag = 0;
+    }
+
+    public byte[] getBinaryData() {
+      setBinaryData(org.apache.thrift.TBaseHelper.rightSize(binaryData));
+      return binaryData == null ? null : binaryData.array();
+    }
+
+    public ByteBuffer bufferForBinaryData() {
+      return binaryData;
+    }
+
+    public uploadFile_args setBinaryData(byte[] binaryData) {
+      setBinaryData(binaryData == null ? (ByteBuffer)null : ByteBuffer.wrap(binaryData));
+      return this;
+    }
+
+    public uploadFile_args setBinaryData(ByteBuffer binaryData) {
+      this.binaryData = binaryData;
+      return this;
+    }
+
+    public void unsetBinaryData() {
+      this.binaryData = null;
+    }
+
+    /** Returns true if field binaryData is set (has been assigned a value) and false otherwise */
+    public boolean isSetBinaryData() {
+      return this.binaryData != null;
+    }
+
+    public void setBinaryDataIsSet(boolean value) {
+      if (!value) {
+        this.binaryData = null;
+      }
+    }
+
+    public String getFilePath() {
+      return this.filePath;
+    }
+
+    public uploadFile_args setFilePath(String filePath) {
+      this.filePath = filePath;
+      return this;
+    }
+
+    public void unsetFilePath() {
+      this.filePath = null;
+    }
+
+    /** Returns true if field filePath is set (has been assigned a value) and false otherwise */
+    public boolean isSetFilePath() {
+      return this.filePath != null;
+    }
+
+    public void setFilePathIsSet(boolean value) {
+      if (!value) {
+        this.filePath = null;
+      }
+    }
+
+    public short getFlag() {
+      return this.flag;
+    }
+
+    public uploadFile_args setFlag(short flag) {
+      this.flag = flag;
+      setFlagIsSet(true);
+      return this;
+    }
+
+    public void unsetFlag() {
+      __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __FLAG_ISSET_ID);
+    }
+
+    /** Returns true if field flag is set (has been assigned a value) and false otherwise */
+    public boolean isSetFlag() {
+      return EncodingUtils.testBit(__isset_bitfield, __FLAG_ISSET_ID);
+    }
+
+    public void setFlagIsSet(boolean value) {
+      __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __FLAG_ISSET_ID, value);
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      case BINARY_DATA:
+        if (value == null) {
+          unsetBinaryData();
+        } else {
+          setBinaryData((ByteBuffer)value);
+        }
+        break;
+
+      case FILE_PATH:
+        if (value == null) {
+          unsetFilePath();
+        } else {
+          setFilePath((String)value);
+        }
+        break;
+
+      case FLAG:
+        if (value == null) {
+          unsetFlag();
+        } else {
+          setFlag((Short)value);
+        }
+        break;
+
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BINARY_DATA:
+        return getBinaryData();
+
+      case FILE_PATH:
+        return getFilePath();
+
+      case FLAG:
+        return Short.valueOf(getFlag());
+
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BINARY_DATA:
+        return isSetBinaryData();
+      case FILE_PATH:
+        return isSetFilePath();
+      case FLAG:
+        return isSetFlag();
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof uploadFile_args)
+        return this.equals((uploadFile_args)that);
+      return false;
+    }
+
+    public boolean equals(uploadFile_args that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_binaryData = true && this.isSetBinaryData();
+      boolean that_present_binaryData = true && that.isSetBinaryData();
+      if (this_present_binaryData || that_present_binaryData) {
+        if (!(this_present_binaryData && that_present_binaryData))
+          return false;
+        if (!this.binaryData.equals(that.binaryData))
+          return false;
+      }
+
+      boolean this_present_filePath = true && this.isSetFilePath();
+      boolean that_present_filePath = true && that.isSetFilePath();
+      if (this_present_filePath || that_present_filePath) {
+        if (!(this_present_filePath && that_present_filePath))
+          return false;
+        if (!this.filePath.equals(that.filePath))
+          return false;
+      }
+
+      boolean this_present_flag = true;
+      boolean that_present_flag = true;
+      if (this_present_flag || that_present_flag) {
+        if (!(this_present_flag && that_present_flag))
+          return false;
+        if (this.flag != that.flag)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    public int compareTo(uploadFile_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+      uploadFile_args typedOther = (uploadFile_args)other;
+
+      lastComparison = Boolean.valueOf(isSetBinaryData()).compareTo(typedOther.isSetBinaryData());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBinaryData()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.binaryData, typedOther.binaryData);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetFilePath()).compareTo(typedOther.isSetFilePath());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFilePath()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.filePath, typedOther.filePath);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetFlag()).compareTo(typedOther.isSetFlag());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFlag()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.flag, typedOther.flag);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
+      schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
+      schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("uploadFile_args(");
+      boolean first = true;
+
+      sb.append("binaryData:");
+      if (this.binaryData == null) {
+        sb.append("null");
+      } else {
+        org.apache.thrift.TBaseHelper.toString(this.binaryData, sb);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("filePath:");
+      if (this.filePath == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.filePath);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("flag:");
+      sb.append(this.flag);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class uploadFile_argsStandardSchemeFactory implements SchemeFactory {
+      public uploadFile_argsStandardScheme getScheme() {
+        return new uploadFile_argsStandardScheme();
+      }
+    }
+
+    private static class uploadFile_argsStandardScheme extends StandardScheme<uploadFile_args> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, uploadFile_args struct) throws TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // BINARY_DATA
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.binaryData = iprot.readBinary();
+                struct.setBinaryDataIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // FILE_PATH
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.filePath = iprot.readString();
+                struct.setFilePathIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // FLAG
+              if (schemeField.type == org.apache.thrift.protocol.TType.I16) {
+                struct.flag = iprot.readI16();
+                struct.setFlagIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, uploadFile_args struct) throws TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.binaryData != null) {
+          oprot.writeFieldBegin(BINARY_DATA_FIELD_DESC);
+          oprot.writeBinary(struct.binaryData);
+          oprot.writeFieldEnd();
+        }
+        if (struct.filePath != null) {
+          oprot.writeFieldBegin(FILE_PATH_FIELD_DESC);
+          oprot.writeString(struct.filePath);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldBegin(FLAG_FIELD_DESC);
+        oprot.writeI16(struct.flag);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class uploadFile_argsTupleSchemeFactory implements SchemeFactory {
+      public uploadFile_argsTupleScheme getScheme() {
+        return new uploadFile_argsTupleScheme();
+      }
+    }
+
+    private static class uploadFile_argsTupleScheme extends TupleScheme<uploadFile_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, uploadFile_args struct) throws TException {
+        TTupleProtocol oprot = (TTupleProtocol) prot;
+        BitSet optionals = new BitSet();
+        if (struct.isSetBinaryData()) {
+          optionals.set(0);
+        }
+        if (struct.isSetFilePath()) {
+          optionals.set(1);
+        }
+        if (struct.isSetFlag()) {
+          optionals.set(2);
+        }
+        oprot.writeBitSet(optionals, 3);
+        if (struct.isSetBinaryData()) {
+          oprot.writeBinary(struct.binaryData);
+        }
+        if (struct.isSetFilePath()) {
+          oprot.writeString(struct.filePath);
+        }
+        if (struct.isSetFlag()) {
+          oprot.writeI16(struct.flag);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, uploadFile_args struct) throws TException {
+        TTupleProtocol iprot = (TTupleProtocol) prot;
+        BitSet incoming = iprot.readBitSet(3);
+        if (incoming.get(0)) {
+          struct.binaryData = iprot.readBinary();
+          struct.setBinaryDataIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.filePath = iprot.readString();
+          struct.setFilePathIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.flag = iprot.readI16();
+          struct.setFlagIsSet(true);
+        }
+      }
+    }
+
+  }
+
+  public static class uploadFile_result implements org.apache.thrift.TBase<uploadFile_result, uploadFile_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("uploadFile_result");
+
+
+    private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
+    static {
+      schemes.put(StandardScheme.class, new uploadFile_resultStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new uploadFile_resultTupleSchemeFactory());
+    }
+
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+;
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(uploadFile_result.class, metaDataMap);
+    }
+
+    public uploadFile_result() {
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public uploadFile_result(uploadFile_result other) {
+    }
+
+    public uploadFile_result deepCopy() {
+      return new uploadFile_result(this);
+    }
+
+    @Override
+    public void clear() {
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof uploadFile_result)
+        return this.equals((uploadFile_result)that);
+      return false;
+    }
+
+    public boolean equals(uploadFile_result that) {
+      if (that == null)
+        return false;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    public int compareTo(uploadFile_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+      uploadFile_result typedOther = (uploadFile_result)other;
+
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
+      schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
+      schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+      }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("uploadFile_result(");
+      boolean first = true;
+
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class uploadFile_resultStandardSchemeFactory implements SchemeFactory {
+      public uploadFile_resultStandardScheme getScheme() {
+        return new uploadFile_resultStandardScheme();
+      }
+    }
+
+    private static class uploadFile_resultStandardScheme extends StandardScheme<uploadFile_result> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, uploadFile_result struct) throws TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, uploadFile_result struct) throws TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class uploadFile_resultTupleSchemeFactory implements SchemeFactory {
+      public uploadFile_resultTupleScheme getScheme() {
+        return new uploadFile_resultTupleScheme();
+      }
+    }
+
+    private static class uploadFile_resultTupleScheme extends TupleScheme<uploadFile_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, uploadFile_result struct) throws TException {
+        TTupleProtocol oprot = (TTupleProtocol) prot;
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, uploadFile_result struct) throws TException {
+        TTupleProtocol iprot = (TTupleProtocol) prot;
       }
     }
 
